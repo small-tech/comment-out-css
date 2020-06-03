@@ -26,15 +26,15 @@ export function activate(context: vscode.ExtensionContext) {
       const selectionText = document.getText(selection);
 
 
-      const kCommentedOutCSSStartMarker = '/*⛔';
-      const kCommentedOutCSSEndMarker = '🔚*/';
+      const kCommentedOutCSSStartMarker = '/*👉';
+      const kCommentedOutCSSEndMarker = '👈*/';
       const kInnerCommentStartMarker = '➡';
       const kInnerCommentEndMarker = '⬅';
 
       const kAllCommentStartMarkersRegExp            = /\/\*/g
       const kAllCommentEndMarkersRegExp           = /\*\//g
-      const kAllCommentedOutCSSStartMarkersRegExp = /\/\*⛔/g;
-      const kAllCommentedOutCSSEndMarkersRegExp   = /🔚\*\//g;
+      const kAllCommentedOutCSSStartMarkersRegExp = /\/\*👉/g;
+      const kAllCommentedOutCSSEndMarkersRegExp   = /👈\*\//g;
       const kAllInnerCommentStartMarkersRegExp    = new RegExp(kInnerCommentStartMarker, 'g');
       const kAllInnerCommentEndMarkersRegExp      = new RegExp(kInnerCommentEndMarker, 'g');
 
@@ -87,16 +87,9 @@ export function activate(context: vscode.ExtensionContext) {
       } else {
         // Comment
         result = selectionText
-
-        if (numberOfRegularCSSCommentsStarted === 0) {
-          // Do a regular commenting out.
-          vscode.commands.executeCommand('editor.action.commentLine')
-          return
-        } else {
-          result = result.replace(/\/\*/g, kInnerCommentStartMarker)
-          result = result.replace(/\*\//g, kInnerCommentEndMarker)
-          result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`
-        }
+        result = result.replace(/\/\*/g, kInnerCommentStartMarker)
+        result = result.replace(/\*\//g, kInnerCommentEndMarker)
+        result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`
       }
 
       editor.edit(editBuilder => {
