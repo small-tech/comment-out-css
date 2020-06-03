@@ -1,6 +1,6 @@
 # Comment Out CSS
 
-This is a Visual Studio Code and [VSCodium](https://vscodium.com/) extension that enables you to comment out sections of your CSS even if they contain comments.
+A Visual Studio Code and [VSCodium](https://vscodium.com/) extension that enables you to comment out sections of your CSS even if they contain comments.
 
 Basically, it adds the ability to have nested comments in CSS to VScode (and VSCodium).
 
