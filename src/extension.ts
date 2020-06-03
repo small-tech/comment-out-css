@@ -58,10 +58,21 @@ export function activate(context: vscode.ExtensionContext) {
       Number of inner comments ended             : ${numberOfInnerCommentsEnded}
       `)
 
-      const okToContinue = numberOfRegularCSSCommentsStarted === numberOfRegularCSSCommentsEnded
+      let okToContinue =
+        // We do not support breaking up of existing comments.
+        numberOfRegularCSSCommentsStarted === numberOfRegularCSSCommentsEnded
+
+        // We do not support partial uncommenting of comment blocks.
         && numberOfCommentedOutCSSBlocksStarted === numberOfCommentedOutCSSBlocksEnded
+
+        // We do not support toggling the status of multiple comment blocks.
         && numberOfCommentedOutCSSBlocksStarted <= 1
-        && numberOfInnerCommentsStarted === numberOfInnerCommentsEnded;
+
+        // We do not support partial uncommenting of comment blocks with inner comments.
+        && numberOfInnerCommentsStarted === numberOfInnerCommentsEnded
+
+        // If there are inner comments, ensure that our delimiters are also selected.
+        && (numberOfInnerCommentsStarted > 0 ? numberOfCommentedOutCSSBlocksStarted === 1 : true)
 
       if (!okToContinue) { return; }
 
@@ -76,9 +87,16 @@ export function activate(context: vscode.ExtensionContext) {
       } else {
         // Comment
         result = selectionText
-        result = result.replace(/\/\*/g, kInnerCommentStartMarker)
-        result = result.replace(/\*\//g, kInnerCommentEndMarker)
-        result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`
+
+        if (numberOfRegularCSSCommentsStarted === 0) {
+          // Do a regular commenting out.
+          vscode.commands.executeCommand('editor.action.commentLine')
+          return
+        } else {
+          result = result.replace(/\/\*/g, kInnerCommentStartMarker)
+          result = result.replace(/\*\//g, kInnerCommentEndMarker)
+          result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`
+        }
       }
 
       editor.edit(editBuilder => {

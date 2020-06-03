@@ -19,6 +19,14 @@
 				"command": "comment-out-css",
 				"title": "Comment out CSS"
 			}
+		],
+		"keybindings": [
+			{
+				"command": "comment-out-css",
+				"key": "ctrl+/",
+				"mac": "cmd+/",
+				"when": "editorLangId == css && editorHasSelection && !editorReadonly"
+			}
 		]
 	},
 	"scripts": {
