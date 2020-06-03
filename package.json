@@ -1,5 +1,5 @@
 {
-	"name": "small-tech.comment-out-css",
+	"name": "comment-out-css",
 	"displayName": "Comment Out CSS",
 	"description": "Comments out CSS (including CSS that itself contains comments). Basically, adds nested comments to CSS.",
 	"version": "1.0.0",
@@ -15,19 +15,19 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:small-tech.comment-out-css"
+		"onCommand:comment-out-css"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "small-tech.comment-out-css",
+				"command": "comment-out-css",
 				"title": "Comment out CSS"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "small-tech.comment-out-css",
+				"command": "comment-out-css",
 				"key": "ctrl+/",
 				"mac": "cmd+/",
 				"when": "editorLangId == css && editorHasSelection && !editorReadonly"
