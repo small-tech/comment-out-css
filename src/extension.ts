@@ -31,8 +31,8 @@ export function activate(context: vscode.ExtensionContext) {
       const kInnerCommentStartMarker = '➡';
       const kInnerCommentEndMarker = '⬅';
 
-      const kAllCommentStartMarkersRegExp            = /\/\*/g
-      const kAllCommentEndMarkersRegExp           = /\*\//g
+      const kAllCommentStartMarkersRegExp            = /\/\*/g;
+      const kAllCommentEndMarkersRegExp           = /\*\//g;
       const kAllCommentedOutCSSStartMarkersRegExp = /\/\*👉/g;
       const kAllCommentedOutCSSEndMarkersRegExp   = /👈\*\//g;
       const kAllInnerCommentStartMarkersRegExp    = new RegExp(kInnerCommentStartMarker, 'g');
@@ -49,14 +49,14 @@ export function activate(context: vscode.ExtensionContext) {
       const numberOfInnerCommentsStarted         = countMatches(selectionText.match(kAllInnerCommentStartMarkersRegExp));
       const numberOfInnerCommentsEnded           = countMatches(selectionText.match(kAllInnerCommentEndMarkersRegExp));
 
-      console.log(`
-      Number of regular CSS comments started     : ${numberOfRegularCSSCommentsStarted}
-      Number of regular CSS comments ended       : ${numberOfRegularCSSCommentsEnded}
-      Number of commented-out CSS blocks started : ${numberOfCommentedOutCSSBlocksStarted}
-      Number of commented-out CSS blocks ended   : ${numberOfCommentedOutCSSBlocksEnded}
-      Number of inner comments started           : ${numberOfInnerCommentsStarted}
-      Number of inner comments ended             : ${numberOfInnerCommentsEnded}
-      `)
+      // console.log(`
+      // Number of regular CSS comments started     : ${numberOfRegularCSSCommentsStarted}
+      // Number of regular CSS comments ended       : ${numberOfRegularCSSCommentsEnded}
+      // Number of commented-out CSS blocks started : ${numberOfCommentedOutCSSBlocksStarted}
+      // Number of commented-out CSS blocks ended   : ${numberOfCommentedOutCSSBlocksEnded}
+      // Number of inner comments started           : ${numberOfInnerCommentsStarted}
+      // Number of inner comments ended             : ${numberOfInnerCommentsEnded}
+      // `);
 
       let okToContinue =
         // We do not support breaking up of existing comments.
@@ -72,24 +72,24 @@ export function activate(context: vscode.ExtensionContext) {
         && numberOfInnerCommentsStarted === numberOfInnerCommentsEnded
 
         // If there are inner comments, ensure that our delimiters are also selected.
-        && (numberOfInnerCommentsStarted > 0 ? numberOfCommentedOutCSSBlocksStarted === 1 : true)
+        && (numberOfInnerCommentsStarted > 0 ? numberOfCommentedOutCSSBlocksStarted === 1 : true);
 
       if (!okToContinue) { return; }
 
       let result: string;
       if (numberOfCommentedOutCSSBlocksStarted === 1) {
         // Uncomment
-        result = selectionText
-        result = result.replace(kAllCommentedOutCSSStartMarkersRegExp, '')
-        result = result.replace(kAllCommentedOutCSSEndMarkersRegExp, '')
-        result = result.replace(kAllInnerCommentStartMarkersRegExp, '/*')
-        result = result.replace(kAllInnerCommentEndMarkersRegExp, '*/')
+        result = selectionText;
+        result = result.replace(kAllCommentedOutCSSStartMarkersRegExp, '');
+        result = result.replace(kAllCommentedOutCSSEndMarkersRegExp, '');
+        result = result.replace(kAllInnerCommentStartMarkersRegExp, '/*');
+        result = result.replace(kAllInnerCommentEndMarkersRegExp, '*/');
       } else {
         // Comment
-        result = selectionText
-        result = result.replace(/\/\*/g, kInnerCommentStartMarker)
-        result = result.replace(/\*\//g, kInnerCommentEndMarker)
-        result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`
+        result = selectionText;
+        result = result.replace(/\/\*/g, kInnerCommentStartMarker);
+        result = result.replace(/\*\//g, kInnerCommentEndMarker);
+        result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`;
       }
 
       editor.edit(editBuilder => {
