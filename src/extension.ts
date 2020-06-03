@@ -6,21 +6,92 @@ import * as vscode from 'vscode';
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "comment-out-css" is now active!');
+  // Use the console to output diagnostic information (console.log) and errors (console.error)
+  // This line of code will only be executed once when your extension is activated
+  console.log('Congratulations, your extension "comment-out-css" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('comment-out-css.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+  // The command has been defined in the package.json file
+  // Now provide the implementation of the command with registerCommand
+  // The commandId parameter must match the command field in package.json
+  let disposable = vscode.commands.registerCommand('comment-out-css', () => {
+    // The code you place here will be executed every time your command is executed
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from Comment Out CSS!');
-	});
+    const editor = vscode.window.activeTextEditor;
 
-	context.subscriptions.push(disposable);
+    if (editor) {
+      const document = editor.document;
+      const selection = editor.selection;
+
+      // Get the word within the selection
+      const selectionText = document.getText(selection);
+
+
+      const kCommentedOutCSSStartMarker = '/*⛔';
+      const kCommentedOutCSSEndMarker = '🔚*/';
+      const kInnerCommentStartMarker = '➡';
+      const kInnerCommentEndMarker = '⬅';
+
+      const kAllCommentStartMarkersRegExp            = /\/\*/g
+      const kAllCommentEndMarkersRegExp           = /\*\//g
+      const kAllCommentedOutCSSStartMarkersRegExp = /\/\*⛔/g;
+      const kAllCommentedOutCSSEndMarkersRegExp   = /🔚\*\//g;
+      const kAllInnerCommentStartMarkersRegExp    = new RegExp(kInnerCommentStartMarker, 'g');
+      const kAllInnerCommentEndMarkersRegExp      = new RegExp(kInnerCommentEndMarker, 'g');
+
+
+      // First, count the number of comment start and end markers in the selection. If the number of start and end
+      // markers do not match, do nothing (we don’t handle partial comments at the moment as that’s far more
+      // complicated.)
+      const numberOfRegularCSSCommentsStarted    = countMatches(selectionText.match(kAllCommentStartMarkersRegExp));
+      const numberOfRegularCSSCommentsEnded      = countMatches(selectionText.match(kAllCommentEndMarkersRegExp));
+      const numberOfCommentedOutCSSBlocksStarted = countMatches(selectionText.match(kAllCommentedOutCSSStartMarkersRegExp));
+      const numberOfCommentedOutCSSBlocksEnded   = countMatches(selectionText.match(kAllCommentedOutCSSEndMarkersRegExp));
+      const numberOfInnerCommentsStarted         = countMatches(selectionText.match(kAllInnerCommentStartMarkersRegExp));
+      const numberOfInnerCommentsEnded           = countMatches(selectionText.match(kAllInnerCommentEndMarkersRegExp));
+
+      console.log(`
+      Number of regular CSS comments started     : ${numberOfRegularCSSCommentsStarted}
+      Number of regular CSS comments ended       : ${numberOfRegularCSSCommentsEnded}
+      Number of commented-out CSS blocks started : ${numberOfCommentedOutCSSBlocksStarted}
+      Number of commented-out CSS blocks ended   : ${numberOfCommentedOutCSSBlocksEnded}
+      Number of inner comments started           : ${numberOfInnerCommentsStarted}
+      Number of inner comments ended             : ${numberOfInnerCommentsEnded}
+      `)
+
+      const okToContinue = numberOfRegularCSSCommentsStarted === numberOfRegularCSSCommentsEnded
+        && numberOfCommentedOutCSSBlocksStarted === numberOfCommentedOutCSSBlocksEnded
+        && numberOfCommentedOutCSSBlocksStarted <= 1
+        && numberOfInnerCommentsStarted === numberOfInnerCommentsEnded;
+
+      if (!okToContinue) { return; }
+
+      let result: string;
+      if (numberOfCommentedOutCSSBlocksStarted === 1) {
+        // Uncomment
+        result = selectionText
+        result = result.replace(kAllCommentedOutCSSStartMarkersRegExp, '')
+        result = result.replace(kAllCommentedOutCSSEndMarkersRegExp, '')
+        result = result.replace(kAllInnerCommentStartMarkersRegExp, '/*')
+        result = result.replace(kAllInnerCommentEndMarkersRegExp, '*/')
+      } else {
+        // Comment
+        result = selectionText
+        result = result.replace(/\/\*/g, kInnerCommentStartMarker)
+        result = result.replace(/\*\//g, kInnerCommentEndMarker)
+        result = `${kCommentedOutCSSStartMarker}${result}${kCommentedOutCSSEndMarker}`
+      }
+
+      editor.edit(editBuilder => {
+      	editBuilder.replace(selection, result);
+      });
+    }
+  });
+
+  context.subscriptions.push(disposable);
+}
+
+function countMatches(regExpMatchResult: RegExpMatchArray | null): number {
+  return regExpMatchResult === null ? 0 : regExpMatchResult.length;
 }
 
 // this method is called when your extension is deactivated

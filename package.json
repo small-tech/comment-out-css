@@ -10,14 +10,14 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:comment-out-css.helloWorld"
+		"onCommand:comment-out-css"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "comment-out-css.helloWorld",
-				"title": "Hello World"
+				"command": "comment-out-css",
+				"title": "Comment out CSS"
 			}
 		]
 	},
