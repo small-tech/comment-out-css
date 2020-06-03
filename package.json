@@ -2,11 +2,12 @@
 	"name": "comment-out-css",
 	"displayName": "Comment Out CSS",
 	"description": "Comments out CSS (including CSS that itself contains comments). Basically, adds nested comments to CSS.",
+	"publisher": "small-tech",
 	"version": "1.0.0",
 	"icon": "images/icon.png",
 	"repository": {
 		"type": "git",
-		"url": "https://source.small-tech.org/comment-out-css"
+		"url": "https://github.com/small-tech/comment-out-css"
 	},
 	"engines": {
 		"vscode": "^1.45.0"
