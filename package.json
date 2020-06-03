@@ -1,5 +1,5 @@
 {
-	"name": "comment-out-css",
+	"name": "small-tech.comment-out-css",
 	"displayName": "Comment Out CSS",
 	"description": "Comment out CSS (including CSS that contains comments).",
 	"version": "0.0.1",
@@ -10,19 +10,19 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:comment-out-css"
+		"onCommand:small-tech.comment-out-css"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "comment-out-css",
+				"command": "small-tech.comment-out-css",
 				"title": "Comment out CSS"
 			}
 		],
 		"keybindings": [
 			{
-				"command": "comment-out-css",
+				"command": "small-tech.comment-out-css",
 				"key": "ctrl+/",
 				"mac": "cmd+/",
 				"when": "editorLangId == css && editorHasSelection && !editorReadonly"

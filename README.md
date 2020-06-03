@@ -1,65 +1,30 @@
-# comment-out-css README
+# Comment Out CSS
 
-This is the README for your extension "comment-out-css". After writing up a brief description, we recommend including the following sections.
+Comments out CSS even if the area you want to comment out contains CSS comments.
 
-## Features
+## Usage
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+1. Select an area of CSS to comment out.
+2. Press `Ctrl + /` (macOS: `Cmd + /`), or select `Comment Out CSS` from the command menu.
 
-For example if there is an image subfolder under your extension project workspace:
+The command will toggle between commenting out and uncommenting your selection.
 
-\!\[feature X\]\(images/feature-x.png\)
+## Limitations
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+  - Can only toggle the status of one commented-out block at a time.
+  - Can not comment out a selection that contains only part of a regular CSS comment.
+  - You must select the area to be commented (simply having the cursor within a block is not enough).
 
-## Requirements
+## Like this? Fund us!
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+[Small Technology Foundation](https://small-tech.org) is a tiny, independent not-for-profit.
 
-## Extension Settings
+We exist in part thanks to patronage by people like you. If you share [our vision](https://small-tech.org/about/#small-technology) and want to support our work, please [become a patron or donate to us](https://small-tech.org/fund-us) today and help us continue to exist.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Copyright
 
-For example:
+&copy; 2020 [Aral Balkan](https://ar.al), [Small Technology Foundation](https://small-tech.org).
 
-This extension contributes the following settings:
+## License
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+[AGPL version 3.0 or later.](https://www.gnu.org/licenses/agpl-3.0.en.html)
