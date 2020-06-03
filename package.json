@@ -1,7 +1,7 @@
 {
 	"name": "small-tech.comment-out-css",
 	"displayName": "Comment Out CSS",
-	"description": "Comments out CSS (including CSS that contains comments). Basically, adds nested comments to CSS.",
+	"description": "Comments out CSS (including CSS that itself contains comments). Basically, adds nested comments to CSS.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.45.0"

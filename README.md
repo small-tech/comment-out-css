@@ -1,6 +1,6 @@
 # Comment Out CSS
 
-Comments out CSS (even if the area you want to comment out contains CSS comments).
+Comments out CSS (including CSS that itself contains comments).
 
 Basically, adds nested comments to CSS.
 
